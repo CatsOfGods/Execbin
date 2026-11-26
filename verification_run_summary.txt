@@ -1,0 +1,35 @@
+== archive
+size_bytes=755250
+sha256=de5a4309f6597e6768f0db137db1f96fb65d30656ff519dcdd21fdda9621d68b
+entries_files=81  backslash_entries=0
+== required files
+required-files check done
+== forbidden files
+none
+== extracted files: 81
+== secrets / personal data scan (extracted copy)
+SCAN: no matches
+== binary files in archive (non-text)
+== gradle: testDebugUnitTest assembleDebug bundleRelease lintDebug
+gradle_exit=0
+BUILD SUCCESSFUL in 2m 39s
+name="com.example.execbin.ExampleUnitTest" tests="1" skipped="0" failures="0" errors="0"
+name="com.example.execbin.crypto.CryptoManagerTest" tests="26" skipped="0" failures="0" errors="0"
+0 errors, 508 warnings
+app/build/outputs/apk/debug/app-debug.apk
+app/build/outputs/bundle/release/app-release.aab
+== functions: npm install && npm test
+install_exit=0
+test_exit=0
+ℹ tests 7
+ℹ pass 7
+ℹ fail 0
+== firestore rules: emulator tests
+install_exit=0
+rules_exit=0
+ℹ tests 29
+ℹ pass 29
+ℹ fail 0
+== done
+
+[exited with code 0]

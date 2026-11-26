@@ -1,0 +1,278 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :app
+WARNING: The option setting 'android.usesSdkInManifest.disallowed=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.sdk.defaultTargetSdkToCompileSdkIfUnset=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.enableAppCompileTimeRClass=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.newDsl=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.r8.optimizedResourceShrinking=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.defaults.buildfeatures.resvalues=true' is deprecated.
+The current default is 'false'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
+To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
+To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
+To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
+To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig
+> Task :app:checkDebugAarMetadata
+> Task :app:processDebugNavigationResources
+> Task :app:generateDebugResValues
+> Task :app:compileDebugNavigationResources
+> Task :app:injectCrashlyticsMappingFileIdDebug
+> Task :app:processDebugGoogleServices
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :app:parseDebugLocalResources
+> Task :app:mergeDebugResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:javaPreCompileDebug
+> Task :app:javaPreCompileDebugUnitTest
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets
+> Task :app:checkDebugDuplicateClasses
+> Task :app:desugarDebugFileDependencies
+> Task :app:mergeDebugJniLibFolders
+> Task :app:mergeLibDexDebug
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:mergeDebugNativeLibs
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets
+> Task :app:buildKotlinToolingMetadata
+> Task :app:generateReleaseBuildConfig
+> Task :app:checkReleaseAarMetadata
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:processReleaseNavigationResources
+> Task :app:stripDebugDebugSymbols
+> Task :app:compileReleaseNavigationResources
+> Task :app:generateReleaseResValues
+> Task :app:injectCrashlyticsMappingFileIdRelease
+> Task :app:processReleaseGoogleServices
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:generateReleaseResources
+> Task :app:packageReleaseResources
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:extractDeepLinksRelease
+> Task :app:parseReleaseLocalResources
+> Task :app:processReleaseMainManifest
+> Task :app:processReleaseManifest
+> Task :app:processReleaseManifestForPackage
+> Task :app:mergeExtDexDebug
+> Task :app:javaPreCompileRelease
+> Task :app:mergeReleaseArtProfile
+> Task :app:extractProguardFiles
+> Task :app:mergeReleaseStartupProfile
+> Task :app:mergeReleaseJniLibFolders
+> Task :app:processDebugManifestForPackage
+> Task :app:mergeReleaseNativeLibs
+> Task :app:writeReleaseAppMetadata
+> Task :app:collectReleaseDependencies
+> Task :app:stripReleaseDebugSymbols
+> Task :app:configureReleaseDependencies
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :app:parseReleaseIntegrityConfig
+> Task :app:generateDebugAndroidTestResValues
+> Task :app:extractReleaseNativeSymbolTables
+> Task :app:mergeReleaseResources
+> Task :app:processDebugResources
+> Task :app:processReleaseResources
+> Task :app:kaptGenerateStubsDebugKotlin
+> Task :app:kaptGenerateStubsReleaseKotlin
+> Task :app:kaptReleaseKotlin
+> Task :app:kaptDebugKotlin
+
+> Task :app:compileReleaseKotlin
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:57:8 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:122:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:123:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:124:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:125:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:126:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:127:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:128:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:371:16 'var statusBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:372:16 'var navigationBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:382:14 'fun setPersistenceEnabled(p0: Boolean): FirebaseFirestoreSettings.Builder' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:383:14 'fun setCacheSizeBytes(p0: Long): FirebaseFirestoreSettings.Builder' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:452:88 'static fun create(p0: String, p1: String, p2: Context, p3: EncryptedSharedPreferences.PrefKeyEncryptionScheme, p4: EncryptedSharedPreferences.PrefValueEncryptionScheme): SharedPreferences' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:454:9 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:454:32 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:874:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:875:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:876:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:877:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:878:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:879:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:880:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:914:16 'var statusBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:915:16 'var navigationBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:2649:38 'constructor(p0: Context!): Notification.Builder' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:2650:18 'fun setPriority(p0: Int): Notification.Builder!' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:2650:55 'static field PRIORITY_HIGH: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:3060:47 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:3079:42 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:4244:43 'constructor(): MediaRecorder' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:5550:28 'val activeNetworkInfo: NetworkInfo?' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:5551:45 'val isConnected: Boolean' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:6528:17 'fun startActivityForResult(p0: Intent, p1: Int): Unit' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:6612:58 'static fun getBitmap(p0: ContentResolver!, p1: Uri!): Bitmap!' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:7303:36 'val activeNetworkInfo: NetworkInfo?' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:7304:53 'val isConnected: Boolean' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9137:49 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9137:80 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9137:133 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9184:38 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9193:38 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:12:8 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:32:77 'static fun create(p0: String, p1: String, p2: Context, p3: EncryptedSharedPreferences.PrefKeyEncryptionScheme, p4: EncryptedSharedPreferences.PrefValueEncryptionScheme): SharedPreferences' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:34:13 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:34:36 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:58:18 'fun fallbackToDestructiveMigration(): RoomDatabase.Builder<AppDatabase>' is deprecated. Replace by overloaded version with parameter to indicate if all tables should be dropped or not.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:102:22 'fun fallbackToDestructiveMigration(): RoomDatabase.Builder<AppDatabase>' is deprecated. Replace by overloaded version with parameter to indicate if all tables should be dropped or not.
+
+> Task :app:compileDebugKotlin
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:57:8 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:122:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:123:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:124:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:125:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:126:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:127:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:128:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:371:16 'var statusBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:372:16 'var navigationBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:382:14 'fun setPersistenceEnabled(p0: Boolean): FirebaseFirestoreSettings.Builder' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:383:14 'fun setCacheSizeBytes(p0: Long): FirebaseFirestoreSettings.Builder' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:452:88 'static fun create(p0: String, p1: String, p2: Context, p3: EncryptedSharedPreferences.PrefKeyEncryptionScheme, p4: EncryptedSharedPreferences.PrefValueEncryptionScheme): SharedPreferences' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:454:9 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:454:32 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:874:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:875:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:876:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:877:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:878:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:879:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:880:31 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:914:16 'var statusBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:915:16 'var navigationBarColor: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:2649:38 'constructor(p0: Context!): Notification.Builder' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:2650:18 'fun setPriority(p0: Int): Notification.Builder!' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:2650:55 'static field PRIORITY_HIGH: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:3060:47 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:3079:42 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:4244:43 'constructor(): MediaRecorder' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:5550:28 'val activeNetworkInfo: NetworkInfo?' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:5551:45 'val isConnected: Boolean' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:6528:17 'fun startActivityForResult(p0: Intent, p1: Int): Unit' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:6612:58 'static fun getBitmap(p0: ContentResolver!, p1: Uri!): Bitmap!' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:7303:36 'val activeNetworkInfo: NetworkInfo?' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:7304:53 'val isConnected: Boolean' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9137:49 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9137:80 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9137:133 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9184:38 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/MainActivity.kt:9193:38 'val adapterPosition: Int' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:12:8 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:32:77 'static fun create(p0: String, p1: String, p2: Context, p3: EncryptedSharedPreferences.PrefKeyEncryptionScheme, p4: EncryptedSharedPreferences.PrefValueEncryptionScheme): SharedPreferences' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:34:13 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:34:36 'class MasterKeys : Any' is deprecated. Deprecated in Java.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:58:18 'fun fallbackToDestructiveMigration(): RoomDatabase.Builder<AppDatabase>' is deprecated. Replace by overloaded version with parameter to indicate if all tables should be dropped or not.
+w: file:///<EXTRACTED_ARCHIVE>/app/src/main/java/com/example/execbin/database/AppDatabase.kt:102:22 'fun fallbackToDestructiveMigration(): RoomDatabase.Builder<AppDatabase>' is deprecated. Replace by overloaded version with parameter to indicate if all tables should be dropped or not.
+
+> Task :app:compileReleaseJavaWithJavac
+> Task :app:compileDebugJavaWithJavac
+> Task :app:processDebugJavaRes
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:kaptGenerateStubsDebugUnitTestKotlin
+> Task :app:mergeDebugJavaResource
+> Task :app:dexBuilderDebug
+> Task :app:mergeReleaseGeneratedProguardFiles
+> Task :app:processReleaseJavaRes
+> Task :app:mergeProjectDexDebug
+> Task :app:expandReleaseArtProfileWildcards
+> Task :app:generateReleaseLintVitalReportModel
+> Task :app:generateDebugAndroidTestLintModel
+> Task :app:generateDebugLintReportModel
+> Task :app:generateDebugUnitTestLintModel
+> Task :app:mergeReleaseJavaResource
+> Task :app:packageDebug
+> Task :app:kaptDebugUnitTestKotlin
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+
+> Task :app:minifyReleaseWithR8
+WARNING: <EXTRACTED_ARCHIVE>\app\proguard-rules.pro:146:1-25: R8: Option -repackageclasses overrides -flattenpackagehierarchy
+
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes
+> Task :app:testDebugUnitTest
+> Task :app:lintAnalyzeDebugAndroidTest
+> Task :app:lintAnalyzeDebugUnitTest
+> Task :app:lintVitalAnalyzeRelease
+> Task :app:lintAnalyzeDebug
+> Task :app:lintVitalReportRelease
+> Task :app:lintVitalRelease
+
+> Task :app:minifyReleaseWithR8
+Warning: Program resource provider does not support async parsing: com.android.tools.r8.internal.ka3
+Warning: Program resource provider does not support async parsing: com.android.tools.r8.internal.ka3
+
+> Task :app:buildReleasePreBundle
+> Task :app:compileReleaseArtProfile
+> Task :app:uploadCrashlyticsMappingFileRelease
+> Task :app:packageReleaseBundle
+> Task :app:signReleaseBundle
+> Task :app:produceReleaseBundleIdeListingFile
+> Task :app:createReleaseBundleListingFileRedirect
+> Task :app:bundleRelease
+
+> Task :app:lintReportDebug
+Wrote HTML report to file:///<EXTRACTED_ARCHIVE>/app/build/reports/lint-results-debug.html
+
+> Task :app:lintDebug
+
+[Incubating] Problems report is available at: file:///<EXTRACTED_ARCHIVE>/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 2m 39s
+112 actionable tasks: 112 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.1.0/userguide/configuration_cache_enabling.html

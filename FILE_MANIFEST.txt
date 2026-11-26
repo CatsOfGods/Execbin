@@ -1,0 +1,116 @@
+ExecBin Buyer Package - File Manifest
+Generated: 2026-10-25
+Columns: relative path | size in bytes | type / purpose | included in buyer deliverables
+
+== Part 1: Package folder (ExecBin_Buyer_Package/) ==
+BUILD_AND_SETUP.md | 6464 | Build, configuration and test instructions | yes
+BUYER_HANDOVER.md | 5800 | Technical transfer guide and acceptance checklist | yes
+EXECBIN_PRODUCT_OVERVIEW.md | 7046 | Product and architecture overview | yes
+Evidence/android_release_dependencies.csv | 16575 | Evidence: 158 Android release dependencies with declared licenses | yes
+Evidence/android_release_dependency_tree.txt | 50064 | Evidence: Gradle releaseRuntimeClasspath dependency tree | yes
+Evidence/android_unit_test_results.txt | 2160 | Evidence: per-test results from JUnit XML | yes
+Evidence/archive_listing.txt | 5226 | Evidence: ZIP entry listing | yes
+Evidence/firestore_rules_emulator_test.log | 15957 | Evidence: Firestore rules emulator test log (sanitized paths) | yes
+Evidence/functions_npm_test.log | 600 | Evidence: Cloud Functions compile + unit test log | yes
+Evidence/gradle_build_test_lint.log | 25091 | Evidence: Gradle test/build/lint log (sanitized paths) | yes
+Evidence/lint-results-debug.txt | 177100 | Evidence: full Android lint report (sanitized paths) | yes
+Evidence/npm_dependencies.csv | 24768 | Evidence: npm packages from both lockfiles with licenses | yes
+Evidence/secret_scan.js | 2313 | Evidence: broad secret-scan script used (prints locations only) | yes
+Evidence/secret_scan_and_integrity_report.txt | 3026 | Evidence: integrity check and secret-scan report | yes
+Evidence/verification_run_summary.txt | 972 | Evidence: summary output of the verification script | yes
+FILE_MANIFEST.txt | - | This manifest | yes
+FINAL_EXECBIN_SOURCE.zip | 755250 | SOURCE CODE ARCHIVE - byte-identical copy of the final ExecBin-for-sale.zip | yes
+IP_AND_TRANSFER_CHECKLIST.md | 5243 | IP, licensing and transfer checklist | yes
+KNOWN_LIMITATIONS.md | 4321 | Outstanding items and limitations | yes
+README_FIRST.md | 3318 | Buyer guide - start here | yes
+SECURITY.md | 10027 | Security assessment (buyer edition) | yes
+SHA256SUMS.txt | - | SHA-256 checksums (generated after all other files; not listed with a size here) | yes
+TEST_AND_VERIFICATION_REPORT.md | 5176 | Verification results and evidence index | yes
+THIRD_PARTY_NOTICES.md | 7834 | Dependency and license inventory, required notices | yes
+
+== Part 2: Contents of FINAL_EXECBIN_SOURCE.zip ==
+ExecBin/.firebaserc | 66 | Build/config file | yes (inside ZIP)
+ExecBin/.gitignore | 455 | Build/config file | yes (inside ZIP)
+ExecBin/build.gradle.kts | 1809 | Gradle build script | yes (inside ZIP)
+ExecBin/firebase.json | 333 | JSON config | yes (inside ZIP)
+ExecBin/firestore.rules | 9368 | Firestore security rules | yes (inside ZIP)
+ExecBin/gradle.properties | 1739 | Build/config file | yes (inside ZIP)
+ExecBin/gradlew | 8728 | Gradle wrapper script | yes (inside ZIP)
+ExecBin/gradlew.bat | 2937 | Gradle wrapper script | yes (inside ZIP)
+ExecBin/HANDOVER.md | 8021 | Documentation | yes (inside ZIP)
+ExecBin/keystore.properties.example | 188 | Build/config file | yes (inside ZIP)
+ExecBin/README.md | 8469 | Documentation | yes (inside ZIP)
+ExecBin/SECURITY.md | 12329 | Documentation | yes (inside ZIP)
+ExecBin/settings.gradle.kts | 536 | Gradle build script | yes (inside ZIP)
+ExecBin/THIRD_PARTY_NOTICES.md | 5535 | Documentation | yes (inside ZIP)
+ExecBin/gradle/libs.versions.toml | 818 | Build/config file | yes (inside ZIP)
+ExecBin/gradle/wrapper/gradle-wrapper.jar | 45457 | Gradle wrapper binary | yes (inside ZIP)
+ExecBin/gradle/wrapper/gradle-wrapper.properties | 233 | Build/config file | yes (inside ZIP)
+ExecBin/functions/.env.example | 244 | Build/config file | yes (inside ZIP)
+ExecBin/functions/package-lock.json | 108294 | npm manifest/lockfile | yes (inside ZIP)
+ExecBin/functions/package.json | 438 | npm manifest/lockfile | yes (inside ZIP)
+ExecBin/functions/tsconfig.json | 230 | JSON config | yes (inside ZIP)
+ExecBin/functions/test/moderation.test.js | 2604 | JavaScript test | yes (inside ZIP)
+ExecBin/functions/src/index.ts | 5515 | TypeScript source (Cloud Function) | yes (inside ZIP)
+ExecBin/functions/src/moderation.ts | 5391 | TypeScript source (Cloud Function) | yes (inside ZIP)
+ExecBin/firestore-tests/package-lock.json | 43285 | npm manifest/lockfile | yes (inside ZIP)
+ExecBin/firestore-tests/package.json | 427 | npm manifest/lockfile | yes (inside ZIP)
+ExecBin/firestore-tests/rules.test.js | 17978 | JavaScript test | yes (inside ZIP)
+ExecBin/firebase-wipe/package.json | 147 | npm manifest/lockfile | yes (inside ZIP)
+ExecBin/firebase-wipe/wipe-all.mjs | 5403 | Admin script (firebase-wipe) | yes (inside ZIP)
+ExecBin/firebase-wipe/wipe_all.py | 4730 | Admin script (firebase-wipe) | yes (inside ZIP)
+ExecBin/docs/DEVICE_TEST_CHECKLIST.md | 7976 | Documentation | yes (inside ZIP)
+ExecBin/docs/FIRESTORE_RULES_REVIEW.md | 8965 | Documentation | yes (inside ZIP)
+ExecBin/docs/LINT_REVIEW.md | 5686 | Documentation | yes (inside ZIP)
+ExecBin/config/detekt/detekt.yml | 1958 | CI / static-analysis config | yes (inside ZIP)
+ExecBin/app/.gitignore | 6 | Build/config file | yes (inside ZIP)
+ExecBin/app/build.gradle.kts | 4317 | Gradle build script | yes (inside ZIP)
+ExecBin/app/proguard-rules.pro | 7117 | Build/config file | yes (inside ZIP)
+ExecBin/app/src/test/java/com/example/execbin/ExampleUnitTest.kt | 343 | Kotlin test source | yes (inside ZIP)
+ExecBin/app/src/test/java/com/example/execbin/crypto/CryptoManagerTest.kt | 19489 | Kotlin test source | yes (inside ZIP)
+ExecBin/app/src/main/AndroidManifest.xml | 2230 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/ic_launcher-playstore.png | 203444 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/xml/backup_rules.xml | 394 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/xml/data_extraction_rules.xml | 916 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/xml/network_security_config.xml | 1701 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/values-night/themes.xml | 813 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/values/colors.xml | 378 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/values/strings.xml | 69 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/values/themes.xml | 270 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp | 14876 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp | 51352 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp | 22168 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp | 9592 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.webp | 33840 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp | 14392 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xhdpi/ic_launcher.webp | 5088 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.webp | 18018 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp | 8190 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-mdpi/ic_launcher.webp | 1824 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.webp | 5782 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp | 2656 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-hdpi/ic_launcher.webp | 3314 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.webp | 11418 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp | 5084 | Image (launcher icon) | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml | 272 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml | 272 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/drawable-v24/ic_launcher_foreground.xml | 1702 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/res/drawable/ic_launcher_background.xml | 4941 | Android XML resource/config | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/DeviceUtils.kt | 1097 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/IconHelper.kt | 3363 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/InlineGalleryPicker.kt | 23585 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/LineIconDrawable.kt | 15656 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/MainActivity.kt | 451051 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/MyFirebaseMessagingService.kt | 3090 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/PrivacyPolicy.kt | 62204 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/StringsManager.kt | 255523 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/database/AppDatabase.kt | 5122 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/database/CachedMessage.kt | 737 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/database/MessageDao.kt | 1129 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/main/java/com/example/execbin/crypto/CryptoManager.kt | 13838 | Kotlin source | yes (inside ZIP)
+ExecBin/app/src/androidTest/java/com/example/execbin/ExampleInstrumentedTest.kt | 669 | Kotlin test source | yes (inside ZIP)
+ExecBin/.github/workflows/ci.yml | 3913 | CI / static-analysis config | yes (inside ZIP)
+
+ZIP: 81 files, 1623537 bytes uncompressed.
+Not included anywhere (by design): google-services.json, signing keystore and keystore.properties,
+local.properties, service-account keys, functions/.env, build outputs, node_modules, Git history.

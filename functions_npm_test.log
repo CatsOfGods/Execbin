@@ -1,0 +1,19 @@
+
+> test
+> tsc && node --test test/*.test.js
+
+✔ validateReport accepts a well-formed report (0.5308ms)
+✔ validateReport rejects unknown reason codes and chat types (0.0875ms)
+✔ boundText caps text sent to the model (0.4549ms)
+✔ buildUserPrompt keeps the message inside its data block (0.1639ms)
+✔ parseVerdict accepts valid JSON and rejects anything else (0.1766ms)
+✔ withinBudget enforces global and per-reporter daily limits (0.5874ms)
+✔ dayKey uses the UTC date (1.0089ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 90.144

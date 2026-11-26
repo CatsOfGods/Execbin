@@ -1,0 +1,1802 @@
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MyFirebaseMessagingService.kt:3: Warning: Don't include android.R here; use a fully qualified name for each usage instead [SuspiciousImport]
+import android.R
+~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "SuspiciousImport":
+   Importing android.R is usually not intentional; it sometimes happens when
+   you use an IDE and ask it to automatically add imports at a time when your
+   project's R class it not present.
+
+   Once the import is there you might get a lot of "confusing" error messages
+   because of course the fields available on android.R are not the ones you'd
+   expect from just looking at your own R class.
+
+<EXTRACTED_ARCHIVE>\app\src\main\AndroidManifest.xml:6: Warning: READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: READ_MEDIA_IMAGES, READ_MEDIA_VIDEO or READ_MEDIA_AUDIO. [ScopedStorage]
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "ScopedStorage":
+   Scoped storage is enforced on Android 10+ (or Android 11+ if using
+   requestLegacyExternalStorage). In particular, WRITE_EXTERNAL_STORAGE will
+   no longer provide write access to all files; it will provide the equivalent
+   of READ_EXTERNAL_STORAGE instead.
+
+   As of Android 13, if you need to query or interact with MediaStore or media
+   files on the shared storage, you should be using instead one or more new
+   storage permissions:
+   * android.permission.READ_MEDIA_IMAGES
+   * android.permission.READ_MEDIA_VIDEO
+   * android.permission.READ_MEDIA_AUDIO
+
+   and then add maxSdkVersion="33" to the older permission. See the developer
+   guide for how to do this:
+   https://developer.android.com/about/versions/13/behavior-changes-13#granula
+   r-media-permissions
+
+   The MANAGE_EXTERNAL_STORAGE permission can be used to manage all files, but
+   it is rarely necessary and most apps on Google Play are not allowed to use
+   it. Most apps should instead migrate to use scoped storage. To modify or
+   delete files, apps should request write access from the user as described
+   at https://goo.gle/android-mediastore-createwriterequest.
+
+   To learn more, read these resources: Play policy:
+   https://goo.gle/policy-storage-help Allowable use cases:
+   https://goo.gle/policy-storage-usecases
+
+   https://goo.gle/android-storage-usecases
+
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\database\AppDatabase.kt:49: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+            prefs.edit().putString("db_key_v2", Base64.encodeToString(keyBytes, Base64.NO_WRAP)).commit()
+                                                                                                 ~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\database\AppDatabase.kt:84: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+                    keyPrefs(context).edit().remove("db_key_v2").commit()
+                                                                 ~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:484: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+            getSharedPreferences(name, Context.MODE_PRIVATE).edit().clear().commit()
+                                                                            ~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:507: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+            legacy.edit().clear().commit()
+                                  ~~~~~~~~
+
+   Explanation for issues of type "ApplySharedPref":
+   Consider using apply() instead of commit on shared preferences. Whereas
+   commit blocks and writes its data to persistent storage immediately, apply
+   will handle it in the background.
+
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4336: Warning: Implicitly using the default locale is a common source of bugs: Use String.format(Locale, ...) instead [DefaultLocale]
+                val durationText = "${durationSec / 60}:${String.format("%02d", durationSec % 60)}"
+                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:9040: Warning: Implicitly using the default locale is a common source of bugs: Use String.format(Locale, ...) instead [DefaultLocale]
+                        val durationText = "${durationSec / 60}:${String.format("%02d", durationSec % 60)}"
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "DefaultLocale":
+   Calling String#toLowerCase() or #toUpperCase() without specifying an
+   explicit locale is a common source of bugs. The reason for that is that
+   those methods will use the current locale on the user's device, and even
+   though the code appears to work correctly when you are developing the app,
+   it will fail in some locales. For example, in the Turkish locale, the
+   uppercase replacement for i is not I.
+
+   If you want the methods to just perform ASCII replacement, for example to
+   convert an enum name, call String#toUpperCase(Locale.ROOT) instead. If you
+   really want to use the current locale, call
+   String#toUpperCase(Locale.getDefault()) instead.
+
+   https://developer.android.com/reference/java/util/Locale.html#default_locale
+
+<EXTRACTED_ARCHIVE>\app\src\main\AndroidManifest.xml:19: Warning: Attribute networkSecurityConfig is only used in API level 24 and higher (current min is 23) [UnusedAttribute]
+        android:networkSecurityConfig="@xml/network_security_config">
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedAttribute":
+   This check finds attributes set in XML files that were introduced in a
+   version newer than the oldest version targeted by your application (with
+   the minSdkVersion attribute).
+
+   This is not an error; the application will simply ignore the attribute.
+   However, if the attribute is important to the appearance or functionality
+   of your application, you should consider finding an alternative way to
+   achieve the same result with only available attributes, and then you can
+   optionally create a copy of the layout in a layout-vNN folder which will be
+   used on API NN or higher where you can take advantage of the newer
+   attribute.
+
+   Note: This check does not only apply to attributes. For example, some tags
+   can be unused too, such as the new <tag> element in layouts introduced in
+   API 21.
+
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:134: Warning: Found dynamic locale changes, but did not find corresponding Play Core library calls for downloading languages and splitting by language is not disabled in the bundle configuration [AppBundleLocaleChanges]
+        config.setLocale(locale)
+        ~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "AppBundleLocaleChanges":
+   When changing locales at runtime (e.g. to provide an in-app language
+   switcher), the Android App Bundle must be configured to not split by locale
+   or the Play Core library must be used to download additional locales at
+   runtime.
+
+   https://developer.android.com/guide/app-bundle/configure-base#handling_language_changes
+
+<EXTRACTED_ARCHIVE>\app\src\main\AndroidManifest.xml:7: Warning: Your app is currently not handling Selected Photos Access introduced in Android 14+ [SelectedPhotoAccess]
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "SelectedPhotoAccess":
+   Selected Photo Access is a new ability for users to share partial access to
+   their photo library when apps request access to their device storage on
+   Android 14+.
+
+   Instead of letting the system manage the selection lifecycle, we recommend
+   you adapt your app to handle partial access to the photo library.
+
+   https://developer.android.com/about/versions/14/changes/partial-photo-video-access
+
+<EXTRACTED_ARCHIVE>\gradle\wrapper\gradle-wrapper.properties:3: Warning: A newer version of Gradle than 9.1.0 is available: 9.8.2 [AndroidGradlePluginVersion]
+distributionUrl=https\://services.gradle.org/distributions/gradle-9.1.0-bin.zip
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\gradle\libs.versions.toml:2: Warning: A newer version of com.android.application than 9.0.1 is available: 9.4.1 [AndroidGradlePluginVersion]
+agp = "9.0.1"
+      ~~~~~~~
+
+   Explanation for issues of type "AndroidGradlePluginVersion":
+   This detector looks for usage of the Android Gradle Plugin where the
+   version you are using is not the current stable release. Using older
+   versions is fine, and there are cases where you deliberately want to stick
+   with an older version. However, you may simply not be aware that a more
+   recent version is available, and that is what this lint check helps find.
+
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:78: Warning: A newer version of androidx.core:core-ktx than 1.12.0 is available: 1.19.1 [GradleDependency]
+    implementation("androidx.core:core-ktx:1.12.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:79: Warning: A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.8.0 [GradleDependency]
+    implementation("androidx.appcompat:appcompat:1.6.1")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:80: Warning: A newer version of com.google.android.material:material than 1.9.0 is available: 1.14.0 [GradleDependency]
+    implementation("com.google.android.material:material:1.9.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:81: Warning: A newer version of androidx.recyclerview:recyclerview than 1.3.2 is available: 1.4.0 [GradleDependency]
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:82: Warning: A newer version of androidx.security:security-crypto than 1.1.0-alpha06 is available: 1.1.0 [GradleDependency]
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:86: Warning: A newer version of androidx.room:room-runtime than 2.7.0-alpha12 is available: 2.8.5 [GradleDependency]
+    implementation("androidx.room:room-runtime:$room_version")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:87: Warning: A newer version of androidx.room:room-compiler than 2.7.0-alpha12 is available: 2.8.5 [GradleDependency]
+    kapt("androidx.room:room-compiler:$room_version")
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:88: Warning: A newer version of androidx.room:room-ktx than 2.7.0-alpha12 is available: 2.8.5 [GradleDependency]
+    implementation("androidx.room:room-ktx:$room_version")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:92: Warning: A newer version of androidx.sqlite:sqlite-ktx than 2.4.0 is available: 2.7.1 [GradleDependency]
+    implementation("androidx.sqlite:sqlite-ktx:2.4.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:95: Warning: A newer version of androidx.lifecycle:lifecycle-viewmodel-ktx than 2.8.0 is available: 2.11.0 [GradleDependency]
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:96: Warning: A newer version of androidx.lifecycle:lifecycle-livedata-ktx than 2.8.0 is available: 2.11.0 [GradleDependency]
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:97: Warning: A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.8.0 is available: 2.11.0 [GradleDependency]
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:100: Warning: A newer version of com.google.firebase:firebase-bom than 33.7.0 is available: 35.1.0 [GradleDependency]
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:104: Warning: A newer version of com.google.android.gms:play-services-auth than 20.7.0 is available: 22.0.0 [GradleDependency]
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:107: Warning: A newer version of com.google.android.play:integrity than 1.4.0 is available: 1.6.0 [GradleDependency]
+    implementation("com.google.android.play:integrity:1.4.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:120: Warning: A newer version of androidx.exifinterface:exifinterface than 1.3.7 is available: 1.4.2 [GradleDependency]
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:123: Warning: A newer version of androidx.swiperefreshlayout:swiperefreshlayout than 1.1.0 is available: 1.2.0 [GradleDependency]
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:129: Warning: A newer version of androidx.test.ext:junit than 1.1.5 is available: 1.3.0 [GradleDependency]
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:130: Warning: A newer version of androidx.test.espresso:espresso-core than 3.5.1 is available: 3.7.0 [GradleDependency]
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\gradle\libs.versions.toml:3: Warning: A newer version of androidx.core:core-ktx than 1.17.0 is available: 1.19.1 [GradleDependency]
+coreKtx = "1.17.0"
+          ~~~~~~~~
+<EXTRACTED_ARCHIVE>\gradle\libs.versions.toml:7: Warning: A newer version of androidx.appcompat:appcompat than 1.7.1 is available: 1.8.0 [GradleDependency]
+appcompat = "1.7.1"
+            ~~~~~~~
+<EXTRACTED_ARCHIVE>\gradle\libs.versions.toml:8: Warning: A newer version of com.google.android.material:material than 1.13.0 is available: 1.14.0 [GradleDependency]
+material = "1.13.0"
+           ~~~~~~~~
+
+   Explanation for issues of type "GradleDependency":
+   This detector looks for usages of libraries where the version you are using
+   is not the current stable release. Using older versions is fine, and there
+   are cases where you deliberately want to stick with an older version.
+   However, you may simply not be aware that a more recent version is
+   available, and that is what this lint check helps find.
+
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:91: Warning: A newer version of net.zetetic:sqlcipher-android than 4.6.1 is available: 4.19.1 [NewerVersionAvailable]
+    implementation("net.zetetic:sqlcipher-android:4.6.1@aar")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:126: Warning: A newer version of com.google.zxing:core than 3.5.3 is available: 3.5.4 [NewerVersionAvailable]
+    implementation("com.google.zxing:core:3.5.3")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "NewerVersionAvailable":
+   This detector checks with a central repository to see if there are newer
+   versions available for the dependencies used by this project. This is
+   similar to the GradleDependency check, which checks for newer versions
+   available in the Android SDK tools and libraries, but this works with any
+   MavenCentral dependency, and connects to the library every time, which
+   makes it more flexible but also much slower.
+
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\DeviceUtils.kt:11: Warning: Using getString to get device identifiers is not recommended [HardwareIds]
+        val androidId = Settings.Secure.getString(
+                        ^
+
+   Explanation for issues of type "HardwareIds":
+   Using these device identifiers is not recommended other than for high value
+   fraud prevention and advanced telephony use-cases. For advertising
+   use-cases, use AdvertisingIdClient$Info#getId and for analytics, use
+   InstanceId#getId.
+
+   https://developer.android.com/training/articles/user-data-ids.html
+
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:610: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                notifyDataSetChanged()
+                ~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5675: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                            adapter.notifyDataSetChanged()
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5735: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                                        adapter.notifyDataSetChanged()
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5752: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                                        adapter.notifyDataSetChanged()
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5769: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                        adapter.notifyDataSetChanged()
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5781: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                            adapter.notifyDataSetChanged()
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5807: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                                adapter.notifyDataSetChanged()
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5818: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                            adapter.notifyDataSetChanged()
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5839: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                                adapter.notifyDataSetChanged()
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5850: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+            adapter.notifyDataSetChanged()
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6760: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                    adapter.searchQuery = ""; adapter.notifyDataSetChanged()
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6775: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                    adapter.searchQuery = query; adapter.notifyDataSetChanged()
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6820: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                    adapter.notifyDataSetChanged()
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6854: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                    adapter.notifyDataSetChanged()
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7247: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                            msgAdapter.notifyDataSetChanged()
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7271: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                            msgAdapter.notifyDataSetChanged()
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7446: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                    adapter.notifyDataSetChanged()
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7506: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                            adapter.notifyDataSetChanged()
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7593: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                            adapter.notifyDataSetChanged()
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8645: Warning: It will always be more efficient to use more specific change events if you can. Rely on notifyDataSetChanged as a last resort. [NotifyDataSetChanged]
+                                    adapter.notifyDataSetChanged()
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "NotifyDataSetChanged":
+   The RecyclerView adapter's onNotifyDataSetChanged method does not specify
+   what about the data set has changed, forcing any observers to assume that
+   all existing items and structure may no longer be valid. `LayoutManager`s
+   will be forced to fully rebind and relayout all visible views.
+
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:87: Warning: This library supports using KSP instead of kapt, which greatly improves performance. Learn more: https://developer.android.com/studio/build/migrate-to-ksp [KaptUsageInsteadOfKsp]
+    kapt("androidx.room:room-compiler:$room_version")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "KaptUsageInsteadOfKsp":
+   KSP is a more efficient replacement for kapt. For libraries that support
+   both, KSP should be used to improve build times.
+
+   https://developer.android.com/studio/build/migrate-to-ksp
+
+<EXTRACTED_ARCHIVE>\app\src\main\res\values\colors.xml:3: Warning: The resource R.color.purple_200 appears to be unused [UnusedResources]
+    <color name="purple_200">#FFBB86FC</color>
+           ~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\res\values\colors.xml:4: Warning: The resource R.color.purple_500 appears to be unused [UnusedResources]
+    <color name="purple_500">#FF6200EE</color>
+           ~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\res\values\colors.xml:5: Warning: The resource R.color.purple_700 appears to be unused [UnusedResources]
+    <color name="purple_700">#FF3700B3</color>
+           ~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\res\values\colors.xml:6: Warning: The resource R.color.teal_200 appears to be unused [UnusedResources]
+    <color name="teal_200">#FF03DAC5</color>
+           ~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\res\values\colors.xml:7: Warning: The resource R.color.teal_700 appears to be unused [UnusedResources]
+    <color name="teal_700">#FF018786</color>
+           ~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\res\values\colors.xml:8: Warning: The resource R.color.black appears to be unused [UnusedResources]
+    <color name="black">#FF000000</color>
+           ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\res\values\colors.xml:9: Warning: The resource R.color.white appears to be unused [UnusedResources]
+    <color name="white">#FFFFFFFF</color>
+           ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\res\drawable-v24\ic_launcher_foreground.xml:1: Warning: The resource R.drawable.ic_launcher_foreground appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+<EXTRACTED_ARCHIVE>\app\src\main\res\mipmap-hdpi\ic_launcher_round.webp: Warning: The resource R.mipmap.ic_launcher_round appears to be unused [UnusedResources]
+<EXTRACTED_ARCHIVE>\app\src\main\res\values\themes.xml:2: Warning: The resource R.style.Theme_Execbintest appears to be unused [UnusedResources]
+    <style name="Theme.Execbintest" parent="Theme.AppCompat.DayNight.NoActionBar">
+           ~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedResources":
+   Unused resources make applications larger and slow down builds.
+
+
+   The unused resource check can ignore tests. If you want to include
+   resources that are only referenced from tests, consider packaging them in a
+   test source set instead.
+
+   You can include test sources in the unused resource check by setting the
+   system property lint.unused-resources.include-tests =true, and to exclude
+   them (usually for performance reasons), use
+   lint.unused-resources.exclude-tests =true.
+   ,
+
+   Available options:
+
+   **skip-libraries** (default is true):
+   Whether the unused resource check should skip reporting unused resources in libraries.
+
+   Many libraries will declare resources that are part of the library surface; other modules depending on the library will also reference the resources. To avoid reporting all these resources as unused (in the context of a library), the unused resource check normally skips reporting unused resources in libraries. Instead, run the unused resource check on the consuming app module (along with `checkDependencies=true`).
+
+   However, there are cases where you want to check that all the resources declared in a library are used; in that case, you can disable the skip option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UnusedResources">
+           <option name="skip-libraries" value="true" />
+       </issue>
+   </lint>
+   ```
+
+<EXTRACTED_ARCHIVE>\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml:2: Warning: The application adaptive icon is missing a monochrome tag [MonochromeLauncherIcon]
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+^
+
+   Explanation for issues of type "MonochromeLauncherIcon":
+   The system may use the coloring of the user's chosen wallpaper and theme to
+   tint app icons. Providing a <monochrome> layer (which will be used for
+   tinting) for every adaptive icon is strongly recommended, otherwise Android
+   16 QPR 2 and above will simply tint the color version of the icon, which
+   may look unusual. Devices running earlier Android versions will (with no
+   monochrome layer) show the untinted color icon for your app, which will
+   look inconsistent.
+
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\database\AppDatabase.kt:49: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+            prefs.edit().putString("db_key_v2", Base64.encodeToString(keyBytes, Base64.NO_WRAP)).commit()
+            ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\database\AppDatabase.kt:84: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                    keyPrefs(context).edit().remove("db_key_v2").commit()
+                    ~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:98: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(Color.parseColor("#80000000"))
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:110: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1C1F3A") else Color.parseColor("#FAFBFF"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:110: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1C1F3A") else Color.parseColor("#FAFBFF"))
+                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:117: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setStroke(dp(1), Color.parseColor("#C8CDD8"))
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:133: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#4A4D6A") else Color.parseColor("#A0A8B8"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:133: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#4A4D6A") else Color.parseColor("#A0A8B8"))
+                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:196: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#151830") else Color.parseColor("#EEF0F6"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:196: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#151830") else Color.parseColor("#EEF0F6"))
+                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:207: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#252850") else Color.parseColor("#FFFFFF"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:207: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#252850") else Color.parseColor("#FFFFFF"))
+                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:210: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setStroke(dp(1), Color.parseColor("#C8CDD8"))
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:269: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(Color.parseColor("#E0000000"))
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:322: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#20FFFFFF"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:350: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setTextColor(Color.parseColor("#CCCCCC"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:371: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(Color.parseColor("#444444"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:523: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setBackgroundColor(Color.parseColor("#40000000"))
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:557: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(if (isDarkTheme) Color.parseColor("#252850") else Color.parseColor("#D8DCE6"))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:557: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(if (isDarkTheme) Color.parseColor("#252850") else Color.parseColor("#D8DCE6"))
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\LineIconDrawable.kt:57: Warning: Use the KTX extension function Canvas.withTranslation instead? [UseKtx]
+        canvas.save()
+        ~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\LineIconDrawable.kt:73: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            "🟢" -> drawDot(canvas, Color.parseColor("#22C55E"))
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\LineIconDrawable.kt:74: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            "🟡" -> drawDot(canvas, Color.parseColor("#FACC15"))
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\LineIconDrawable.kt:75: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            "🟠" -> drawDot(canvas, Color.parseColor("#FB923C"))
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\LineIconDrawable.kt:76: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            "🔴" -> drawDot(canvas, Color.parseColor("#EF4444"))
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\LineIconDrawable.kt:77: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            "⚫" -> drawDot(canvas, Color.parseColor("#64748B"))
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:231: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_READ_RECEIPT = Color.parseColor("#34D399")
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:232: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_UNREAD_RECEIPT = Color.parseColor("#6B7280")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:233: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_ONLINE_GREEN = Color.parseColor("#10B981")
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:234: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_MINE_BUBBLE_START = Color.parseColor("#6366F1")
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:235: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_MINE_BUBBLE_END = Color.parseColor("#8B5CF6")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:236: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_REPLY_MINE = Color.parseColor("#C7D2FE")
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:237: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_REPLY_TEXT_MINE = Color.parseColor("#E2E8F0")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:238: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_DARK_BUBBLE = Color.parseColor("#1E2545")
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:239: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_LIGHT_BUBBLE = Color.parseColor("#F1F5F9")
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:240: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_DARK_MEDIA_BG = Color.parseColor("#1E293B")
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:241: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_LIGHT_MEDIA_BG = Color.parseColor("#E2E8F0")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:242: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_DARK_AVATAR_BG = Color.parseColor("#2A3158")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:243: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_LIGHT_AVATAR_BG = Color.parseColor("#EDE9FE")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:244: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_BUBBLE_GRADIENT_END = Color.parseColor("#A78BFA")
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:245: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_USERNAME_MINE = Color.parseColor("#E0E7FF")
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:246: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+    private val COLOR_ACCENT_GLOW = Color.parseColor("#4C6366F1") // 30% alpha accent for glows
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:484: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+            getSharedPreferences(name, Context.MODE_PRIVATE).edit().clear().commit()
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:507: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+            legacy.edit().clear().commit()
+            ~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:516: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(Color.parseColor("#0C1021"))
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:522: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setTextColor(Color.parseColor("#EF4444"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:529: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setTextColor(Color.parseColor("#8B95B0"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:538: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 14)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:538: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 14)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:547: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        container.setBackgroundColor(Color.parseColor("#0C1021"))
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:560: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setTextColor(Color.parseColor("#EF4444"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:567: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setTextColor(Color.parseColor("#8B95B0"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:577: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 14)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:577: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 14)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:586: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setTextColor(Color.parseColor("#8B95B0"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:591: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                prefs.edit().putBoolean("root_warning_ack", true).apply()
+                ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:702: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setBackgroundColor(Color.parseColor("#CC000000"))
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:711: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1E2340") else Color.parseColor("#FFFFFF"), 20)
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:711: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1E2340") else Color.parseColor("#FFFFFF"), 20)
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:711: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1E2340") else Color.parseColor("#FFFFFF"), 20)
+                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:711: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1E2340") else Color.parseColor("#FFFFFF"), 20)
+                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:723: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setTextColor(if (isDarkTheme) Color.parseColor("#F1F3F8") else Color.parseColor("#1A1D2E"))
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:723: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setTextColor(if (isDarkTheme) Color.parseColor("#F1F3F8") else Color.parseColor("#1A1D2E"))
+                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:798: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    private fun setPinAttempts(count: Int) { prefs.edit().putInt("pin_attempts", count).apply() }
+                                             ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:800: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    private fun setPinLockoutUntil(time: Long) { prefs.edit().putLong("pin_lockout_until", time).apply() }
+                                                 ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:803: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    private fun setLoginAttempts(count: Int) { prefs.edit().putInt("login_attempts", count).apply() }
+                                               ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:805: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    private fun setLoginLockoutUntil(time: Long) { prefs.edit().putLong("login_lockout_until", time).apply() }
+                                                   ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:845: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:863: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:891: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        getSharedPreferences("app_lang_prefs", Context.MODE_PRIVATE)
+        ^
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:897: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            bgColor = Color.parseColor("#080B16")
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:898: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            cardBg = Color.parseColor("#111827")
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:899: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            headerBg = Color.parseColor("#0B0F1E")
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:900: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            accentColor = Color.parseColor("#818CF8")
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:901: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            textColor = Color.parseColor("#F8FAFC")
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:902: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            subTextColor = Color.parseColor("#94A3B8")
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:904: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            bgColor = Color.parseColor("#F8FAFC")
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:905: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            cardBg = Color.parseColor("#FFFFFF")
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:906: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            headerBg = Color.parseColor("#FFFFFF")
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:907: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            accentColor = Color.parseColor("#6366F1")
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:908: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            textColor = Color.parseColor("#0F172A")
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:909: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            subTextColor = Color.parseColor("#64748B")
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:923: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putBoolean("dark_theme", isDarkTheme).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:925: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val colorFrom = if (isDarkTheme) Color.parseColor("#F5F7FA") else Color.parseColor("#080C1A")
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:925: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val colorFrom = if (isDarkTheme) Color.parseColor("#F5F7FA") else Color.parseColor("#080C1A")
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:926: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val colorTo = if (isDarkTheme) Color.parseColor("#080C1A") else Color.parseColor("#F5F7FA")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:926: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val colorTo = if (isDarkTheme) Color.parseColor("#080C1A") else Color.parseColor("#F5F7FA")
+                                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1209: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putStringSet("device_accounts_$currentDeviceId", updated).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1222: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putStringSet("device_created_$currentDeviceId", updated).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1234: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putStringSet("device_accounts_$currentDeviceId", updated).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1288: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1288: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1328: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setBackgroundColor(if (isDarkTheme) Color.parseColor("#2A2D4A") else Color.parseColor("#E8ECF0"))
+                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1328: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setBackgroundColor(if (isDarkTheme) Color.parseColor("#2A2D4A") else Color.parseColor("#E8ECF0"))
+                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1384: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                                setColor(if (isDarkTheme) Color.parseColor("#252B48") else Color.parseColor("#E8EAF4"))
+                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1384: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                                setColor(if (isDarkTheme) Color.parseColor("#252B48") else Color.parseColor("#E8EAF4"))
+                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1384: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                                setColor(if (isDarkTheme) Color.parseColor("#252B48") else Color.parseColor("#E8EAF4"))
+                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1384: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                                setColor(if (isDarkTheme) Color.parseColor("#252B48") else Color.parseColor("#E8EAF4"))
+                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1467: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                    prefs.edit().putStringSet("device_accounts_$currentDeviceId", accounts.toMutableSet()).apply()
+                    ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1472: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                    prefs.edit().putStringSet("device_created_$currentDeviceId", emptySet()).apply()
+                    ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1507: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setImageDrawable(LineIconDrawable("⚠", Color.parseColor("#F59E0B"), dp(70)))
+                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1552: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                            background = createRoundedBackground(Color.parseColor("#EF4444"), 8)
+                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1552: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                            background = createRoundedBackground(Color.parseColor("#EF4444"), 8)
+                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1700: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                prefs.edit().putBoolean("pin_enabled_$userId", hasPinEnabled).apply()
+                ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1715: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putBoolean("pin_verified_device_$userId", true).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1748: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(Color.parseColor("#CC000000"))
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1754: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1C2240") else Color.WHITE, 24)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1754: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1C2240") else Color.WHITE, 24)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1828: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        setColor(if (i == currentStep) accentColor else if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#CBD5E1"))
+                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1828: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        setColor(if (i == currentStep) accentColor else if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#CBD5E1"))
+                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1828: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        setColor(if (i == currentStep) accentColor else if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#CBD5E1"))
+                                                                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1828: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        setColor(if (i == currentStep) accentColor else if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#CBD5E1"))
+                                                                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1835: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+            prefs.edit().putBoolean("tutorial_completed", true).apply()
+            ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2025: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setTextColor(Color.parseColor("#EF4444"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2111: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                            attemptsLabel.setTextColor(Color.parseColor("#EF4444"))
+                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2246: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#2D3748") else Color.parseColor("#E2E8F0"), 50)
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2246: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#2D3748") else Color.parseColor("#E2E8F0"), 50)
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2246: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#2D3748") else Color.parseColor("#E2E8F0"), 50)
+                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2246: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#2D3748") else Color.parseColor("#E2E8F0"), 50)
+                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2269: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    text = iconize(statusText, if (isOnline) Color.parseColor("#22C55E") else subTextColor, 12)
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2269: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    text = iconize(statusText, if (isOnline) Color.parseColor("#22C55E") else subTextColor, 12)
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2270: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setTextColor(if (isOnline) Color.parseColor("#22C55E") else subTextColor)
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2322: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        setTextColor(Color.parseColor("#EF4444"))
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2401: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    banner.setBackgroundColor(Color.parseColor("#22C55E"))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2408: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    banner.setBackgroundColor(Color.parseColor("#EF4444"))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2426: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(Color.parseColor("#EF4444"))
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2545: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putLong("last_active_timestamp", System.currentTimeMillis()).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2681: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#6C63FF"), Color.parseColor("#8B5CF6"), Color.parseColor("#A855F7"))
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2681: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#6C63FF"), Color.parseColor("#8B5CF6"), Color.parseColor("#A855F7"))
+                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2681: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#6C63FF"), Color.parseColor("#8B5CF6"), Color.parseColor("#A855F7"))
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2808: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2808: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2884: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                statusText.setTextColor(Color.parseColor("#EF4444"))
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2894: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    statusText.setTextColor(Color.parseColor("#22C55E"))
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2902: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    statusText.setTextColor(Color.parseColor("#EF4444"))
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3002: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                                        prefs.edit()
+                                        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3095: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putString(saltKey, Base64.encodeToString(salt, Base64.NO_WRAP)).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3134: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3157: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                prefs.edit().remove("${prefix}_key_blob").apply()
+                ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3179: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                    fakePref.edit()
+                    ~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3268: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                prefs.edit()
+                ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3306: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                prefs.edit().putString("_sys_sig_cache", currentHash).apply()
+                ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3328: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                        prefs.edit()
+                        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3440: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putStringSet("blocked_users_$uid", blockedUsers.toSet()).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3445: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3445: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3454: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setImageDrawable(LineIconDrawable("🚫", Color.parseColor("#EF4444"), dp(36)))
+                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3492: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 12)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3492: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 12)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3514: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3514: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3523: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setImageDrawable(LineIconDrawable("⚠", Color.parseColor("#F59E0B"), dp(36)))
+                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3610: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 12)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3610: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 12)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3769: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3769: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3966: Warning: Use the KTX extension function Bitmap.scale instead? [UseKtx]
+                    val s = Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4069: Warning: Use the KTX extension function Bitmap.scale instead? [UseKtx]
+                    val s = Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4298: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"), 12
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4298: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"), 12
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4298: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"), 12
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4298: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"), 12
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4406: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(Color.parseColor("#EE000000"))
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4463: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#44FFFFFF"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4463: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#44FFFFFF"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4484: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#44FFFFFF"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4484: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#44FFFFFF"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4537: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#555555"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4537: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#555555"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4614: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+            prefs.edit()
+            ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4685: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putString("metadata_key_v2", Base64.encodeToString(keyBytes, Base64.NO_WRAP)).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4743: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putString(pref, theirKey).apply()
+        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4841: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                    prefs.edit()
+                    ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4852: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                prefs.edit()
+                ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4861: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                prefs.edit().putLong("${prefix}_key_created", now).apply()
+                ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4898: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setStroke(1, Color.parseColor("#E2E8F0"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4906: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(startColor, Color.parseColor("#A78BFA"), Color.parseColor("#C084FC"))
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4906: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(startColor, Color.parseColor("#A78BFA"), Color.parseColor("#C084FC"))
+                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4914: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setColor(if (isDarkTheme) Color.parseColor("#111827") else Color.parseColor("#F1F5F9"))
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4914: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setColor(if (isDarkTheme) Color.parseColor("#111827") else Color.parseColor("#F1F5F9"))
+                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4916: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setStroke(dp(1), if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4916: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setStroke(dp(1), if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"))
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4925: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setStroke(dp(1), Color.parseColor("#1E293B"))
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4927: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setStroke(dp(1), Color.parseColor("#E2E8F0"))
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4934: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setColor(if (isDarkTheme) Color.parseColor("#CC111827") else Color.parseColor("#CCF8FAFC"))
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4934: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setColor(if (isDarkTheme) Color.parseColor("#CC111827") else Color.parseColor("#CCF8FAFC"))
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4936: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setStroke(dp(1), if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4936: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setStroke(dp(1), if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"))
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4943: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setColor(if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#F1F5F9"))
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4943: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setColor(if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#F1F5F9"))
+                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4944: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setStroke(dp(1), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4944: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setStroke(dp(1), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4982: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1A818CF8") else Color.parseColor("#1A6366F1"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4982: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1A818CF8") else Color.parseColor("#1A6366F1"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4982: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1A818CF8") else Color.parseColor("#1A6366F1"))
+                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4982: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1A818CF8") else Color.parseColor("#1A6366F1"))
+                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5212: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(Color.parseColor(if (isDarkTheme) "#1A7C6FFF" else "#1A6558F5"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5212: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(Color.parseColor(if (isDarkTheme) "#1A7C6FFF" else "#1A6558F5"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5339: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1A818CF8") else Color.parseColor("#1A6366F1"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5339: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1A818CF8") else Color.parseColor("#1A6366F1"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5339: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1A818CF8") else Color.parseColor("#1A6366F1"))
+                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5339: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#1A818CF8") else Color.parseColor("#1A6366F1"))
+                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5631: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A2240") else Color.parseColor("#EEF0FF"), 12)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5631: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A2240") else Color.parseColor("#EEF0FF"), 12)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5631: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A2240") else Color.parseColor("#EEF0FF"), 12)
+                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5631: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A2240") else Color.parseColor("#EEF0FF"), 12)
+                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5650: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setProgressBackgroundColorSchemeColor(if (isDarkTheme) Color.parseColor("#1C2240") else Color.WHITE)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5897: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"), Color.parseColor("#C084FC"))
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5897: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"), Color.parseColor("#C084FC"))
+                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5897: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"), Color.parseColor("#C084FC"))
+                                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5910: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(Color.parseColor("#33FFFFFF"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5910: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(Color.parseColor("#33FFFFFF"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5934: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setTextColor(Color.parseColor("#DDFFFFFF"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5952: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                it.setColor(Color.parseColor(bgHex))
+                            ~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5953: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                it.setStroke(dp(1), if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"))
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5953: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                it.setStroke(dp(1), if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#E2E8F0"))
+                                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5966: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#F1F5F9"))
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5966: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#F1F5F9"))
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:5992: Warning: Use the KTX extension property View.isGone instead? [UseKtx]
+                    val expanding = sectionContent.visibility == View.GONE
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6073: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setTextColor(if (hasPinEnabled) Color.parseColor("#48BB78") else Color.parseColor("#EF4444"))
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6073: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setTextColor(if (hasPinEnabled) Color.parseColor("#48BB78") else Color.parseColor("#EF4444"))
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6091: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setTextColor(Color.parseColor("#EF4444")); textSize = 14f
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6092: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#2A1010") else Color.parseColor("#FEE2E2"), 10)
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6092: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#2A1010") else Color.parseColor("#FEE2E2"), 10)
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6092: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#2A1010") else Color.parseColor("#FEE2E2"), 10)
+                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6092: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#2A1010") else Color.parseColor("#FEE2E2"), 10)
+                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6110: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(Color.parseColor("#48BB78"), 10)
+                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6110: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(Color.parseColor("#48BB78"), 10)
+                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6132: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    text = if (userDevices.size >= MAX_DEVICES_PER_ACCOUNT) iconize("⚠️ " + S.get("device_limit_reached"), Color.parseColor("#EF4444"), 12) else S.get("manage_sessions")
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6132: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    text = if (userDevices.size >= MAX_DEVICES_PER_ACCOUNT) iconize("⚠️ " + S.get("device_limit_reached"), Color.parseColor("#EF4444"), 12) else S.get("manage_sessions")
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6133: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setTextColor(if (userDevices.size >= MAX_DEVICES_PER_ACCOUNT) Color.parseColor("#EF4444") else subTextColor)
+                                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6139: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setTextColor(if (userDevices.size >= MAX_DEVICES_PER_ACCOUNT) Color.parseColor("#EF4444") else accentColor)
+                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6148: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isCurrentDevice) Color.parseColor(if (isDarkTheme) "#253052" else "#E8F0FE")
+                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6148: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isCurrentDevice) Color.parseColor(if (isDarkTheme) "#253052" else "#E8F0FE")
+                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6149: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        else Color.parseColor(if (isDarkTheme) "#151830" else "#F5F5F5"), 12
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6149: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        else Color.parseColor(if (isDarkTheme) "#151830" else "#F5F5F5"), 12
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6157: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        it.setColor(if (isCurrentDevice) accentColor else if (isDarkTheme) Color.parseColor("#2A2D4A") else Color.parseColor("#E8ECF0"))
+                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6157: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        it.setColor(if (isCurrentDevice) accentColor else if (isDarkTheme) Color.parseColor("#2A2D4A") else Color.parseColor("#E8ECF0"))
+                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6191: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        background = createRoundedBackground(Color.parseColor("#EF4444"), 8)
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6191: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        background = createRoundedBackground(Color.parseColor("#EF4444"), 8)
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6231: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                    prefs.edit().putBoolean("hide_last_seen", checked).apply()
+                    ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6266: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                    prefs.edit().putBoolean("encrypt_metadata", checked).apply()
+                    ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6335: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                            setColor(if (isDarkTheme) Color.parseColor("#1A1D3A") else Color.parseColor("#F0F2F5"))
+                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6335: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                            setColor(if (isDarkTheme) Color.parseColor("#1A1D3A") else Color.parseColor("#F0F2F5"))
+                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6336: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                            setStroke(dp(1), if (isDarkTheme) Color.parseColor("#2A2D4A") else Color.parseColor("#DDE1E7"))
+                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6336: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                            setStroke(dp(1), if (isDarkTheme) Color.parseColor("#2A2D4A") else Color.parseColor("#DDE1E7"))
+                                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6385: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                setOnCheckedChangeListener { _, checked -> prefs.edit().putBoolean("notification_sound", checked).apply() }
+                                                           ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6407: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                setOnCheckedChangeListener { _, checked -> prefs.edit().putBoolean("notification_vibration", checked).apply() }
+                                                           ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6417: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#2A2D4A") else Color.parseColor("#E8ECF0"))
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6417: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#2A2D4A") else Color.parseColor("#E8ECF0"))
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6422: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createGradientButton(Color.parseColor("#6558F5"))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6422: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createGradientButton(Color.parseColor("#6558F5"))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6429: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 12)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6429: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(Color.parseColor("#EF4444"), 12)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6435: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            text = iconize("⚠️  " + S.get("delete_account"), Color.parseColor("#EF4444"), 14); setTextColor(Color.parseColor("#EF4444")); textSize = 14f
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6435: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            text = iconize("⚠️  " + S.get("delete_account"), Color.parseColor("#EF4444"), 14); setTextColor(Color.parseColor("#EF4444")); textSize = 14f
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6435: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            text = iconize("⚠️  " + S.get("delete_account"), Color.parseColor("#EF4444"), 14); setTextColor(Color.parseColor("#EF4444")); textSize = 14f
+                                                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6436: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A0808") else Color.parseColor("#FEF2F2"), 12)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6436: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A0808") else Color.parseColor("#FEF2F2"), 12)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6436: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A0808") else Color.parseColor("#FEF2F2"), 12)
+                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6436: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A0808") else Color.parseColor("#FEF2F2"), 12)
+                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6459: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#6C63FF"), Color.parseColor("#8B5CF6"), Color.parseColor("#A855F7"))
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6459: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#6C63FF"), Color.parseColor("#8B5CF6"), Color.parseColor("#A855F7"))
+                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6459: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            intArrayOf(Color.parseColor("#6C63FF"), Color.parseColor("#8B5CF6"), Color.parseColor("#A855F7"))
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6500: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#252B48") else Color.parseColor("#E8EAF4"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6500: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#252B48") else Color.parseColor("#E8EAF4"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6500: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#252B48") else Color.parseColor("#E8EAF4"))
+                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6500: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setColor(if (isDarkTheme) Color.parseColor("#252B48") else Color.parseColor("#E8EAF4"))
+                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6730: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A1F38") else Color.parseColor("#F0F1F5"), 20)
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6730: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A1F38") else Color.parseColor("#F0F1F5"), 20)
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6730: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A1F38") else Color.parseColor("#F0F1F5"), 20)
+                                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6730: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A1F38") else Color.parseColor("#F0F1F5"), 20)
+                                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6800: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#0F172A") else Color.parseColor("#EEF0F6"))
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6800: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#0F172A") else Color.parseColor("#EEF0F6"))
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6979: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            text = iconize("🔴 " + S.get("recording"), Color.parseColor("#EF4444"), 12)
+                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6979: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            text = iconize("🔴 " + S.get("recording"), Color.parseColor("#EF4444"), 12)
+                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6980: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setTextColor(Color.parseColor("#EF4444"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6995: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                voiceBtn.setImageDrawable(LineIconDrawable("⏹", Color.parseColor("#EF4444"), dp(22)))
+                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7012: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))).apply {
+                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7012: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))).apply {
+                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7012: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))).apply {
+                                                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7012: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))).apply {
+                                                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7140: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setStroke(dp(2), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7140: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setStroke(dp(2), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7140: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setStroke(dp(2), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7140: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                setStroke(dp(2), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7201: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A1F38") else Color.parseColor("#F0F1F5"), 20)
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7201: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A1F38") else Color.parseColor("#F0F1F5"), 20)
+                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7201: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A1F38") else Color.parseColor("#F0F1F5"), 20)
+                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7201: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A1F38") else Color.parseColor("#F0F1F5"), 20)
+                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7315: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    onlineLabel.setTextColor(Color.parseColor("#22C55E"))
+                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7356: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#0F172A") else Color.parseColor("#EEF0F6"))
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7356: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#0F172A") else Color.parseColor("#EEF0F6"))
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7395: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A2240") else Color.parseColor("#EEF0FF"), 12)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7395: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A2240") else Color.parseColor("#EEF0FF"), 12)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7395: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A2240") else Color.parseColor("#EEF0FF"), 12)
+                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7395: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#1A2240") else Color.parseColor("#EEF0FF"), 12)
+                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7414: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            val badgeColor = if (isDarkTheme) Color.parseColor("#7C8DB5") else Color.parseColor("#6B7394")
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7414: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            val badgeColor = if (isDarkTheme) Color.parseColor("#7C8DB5") else Color.parseColor("#6B7394")
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7420: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#111630") else Color.parseColor("#F0F1FF"), 0)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7420: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#111630") else Color.parseColor("#F0F1FF"), 0)
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7420: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#111630") else Color.parseColor("#F0F1FF"), 0)
+                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7420: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = createRoundedBackground(if (isDarkTheme) Color.parseColor("#111630") else Color.parseColor("#F0F1FF"), 0)
+                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7427: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            e2eBadge.text = iconize("🛡️ " + S.get("identity_verified"), Color.parseColor("#22C55E"), 11)
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7427: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            e2eBadge.text = iconize("🛡️ " + S.get("identity_verified"), Color.parseColor("#22C55E"), 11)
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7428: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            e2eBadge.setTextColor(Color.parseColor("#22C55E"))
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7653: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                e2eBadge.text = iconize("⚠️ " + S.get("encryption_not_ready"), Color.parseColor("#F59E0B"), 11)
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7653: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                e2eBadge.text = iconize("⚠️ " + S.get("encryption_not_ready"), Color.parseColor("#F59E0B"), 11)
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7654: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                e2eBadge.setTextColor(Color.parseColor("#F59E0B"))
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7666: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                    prefs.edit().remove("${prefix}_key_blob").remove("${prefix}_dpi_conf").apply()
+                    ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7679: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    e2eBadge.text = iconize("🔒 " + S.get("e2e_encrypted"), Color.parseColor("#22C55E"), 11)
+                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7679: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    e2eBadge.text = iconize("🔒 " + S.get("e2e_encrypted"), Color.parseColor("#22C55E"), 11)
+                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7680: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    e2eBadge.setTextColor(Color.parseColor("#22C55E"))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7687: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                e2eBadge.text = iconize("⚠️ " + S.get("waiting_key", displayName), Color.parseColor("#F59E0B"), 11)
+                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7687: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                e2eBadge.text = iconize("⚠️ " + S.get("waiting_key", displayName), Color.parseColor("#F59E0B"), 11)
+                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7689: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                e2eBadge.text = iconize("⚠️ " + S.get("encryption_not_ready"), Color.parseColor("#F59E0B"), 11)
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7689: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                e2eBadge.text = iconize("⚠️ " + S.get("encryption_not_ready"), Color.parseColor("#F59E0B"), 11)
+                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7691: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            e2eBadge.setTextColor(Color.parseColor("#F59E0B"))
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7837: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            text = iconize("🔴 " + S.get("recording"), Color.parseColor("#EF4444"), 12)
+                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7837: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            text = iconize("🔴 " + S.get("recording"), Color.parseColor("#EF4444"), 12)
+                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7838: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setTextColor(Color.parseColor("#EF4444"))
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7853: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                voiceBtn.setImageDrawable(LineIconDrawable("⏹", Color.parseColor("#EF4444"), dp(22)))
+                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7871: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))).apply {
+                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7871: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))).apply {
+                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7871: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))).apply {
+                                                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7871: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            background = GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))).apply {
+                                                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8071: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8071: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#FFFFFF")
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8072: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dangerColor = Color.parseColor("#EF4444")
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8080: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setImageDrawable(LineIconDrawable("🗑", Color.parseColor("#EF4444"), dp(36)))
+                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8135: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#111827") else Color.parseColor("#FFFFFF")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8135: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#111827") else Color.parseColor("#FFFFFF")
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8141: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                if (isDarkTheme) setStroke(dp(1), Color.parseColor("#1E293B"))
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8141: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                if (isDarkTheme) setStroke(dp(1), Color.parseColor("#1E293B"))
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8155: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#F1F5F9"))
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8155: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            setBackgroundColor(if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#F1F5F9"))
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8206: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            addOption("🗑", S.get("delete"), Color.parseColor("#EF4444"), onDelete)
+                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8210: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                addOption("⚠", S.get("report"), Color.parseColor("#F59E0B")) {
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8214: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            addOption("🚫", S.get("block") + " @${msg.username}", Color.parseColor("#EF4444")) {
+                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8226: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#111827") else Color.parseColor("#FFFFFF")
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8226: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+        val dialogBg = if (isDarkTheme) Color.parseColor("#111827") else Color.parseColor("#FFFFFF")
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8232: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                if (isDarkTheme) setStroke(dp(1), Color.parseColor("#1E293B"))
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8232: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                if (isDarkTheme) setStroke(dp(1), Color.parseColor("#1E293B"))
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8262: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(if (alreadyReacted) Color.parseColor("#33818CF8") else Color.TRANSPARENT)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8262: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(if (alreadyReacted) Color.parseColor("#33818CF8") else Color.TRANSPARENT)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8328: Warning: Use the KTX function createBitmap instead? [UseKtx]
+            val bmp = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8331: Warning: Use the KTX extension function Bitmap.set instead? [UseKtx]
+                    bmp.setPixel(x, y, if (matrix[x, y]) Color.BLACK else Color.WHITE)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8354: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                val dialogBg = if (isDarkTheme) Color.parseColor("#111827") else Color.parseColor("#FFFFFF")
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8354: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                val dialogBg = if (isDarkTheme) Color.parseColor("#111827") else Color.parseColor("#FFFFFF")
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8363: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isDarkTheme) setStroke(dp(1), Color.parseColor("#1E293B"))
+                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8363: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isDarkTheme) setStroke(dp(1), Color.parseColor("#1E293B"))
+                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8453: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isAlreadyVerified) Color.parseColor("#EF4444") else Color.parseColor("#22C55E"),
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8453: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isAlreadyVerified) Color.parseColor("#EF4444") else Color.parseColor("#22C55E"),
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8453: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isAlreadyVerified) Color.parseColor("#EF4444") else Color.parseColor("#22C55E"),
+                                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8453: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                        if (isAlreadyVerified) Color.parseColor("#EF4444") else Color.parseColor("#22C55E"),
+                                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8458: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+                        prefs.edit().putBoolean("verified_$otherUid", !isAlreadyVerified).apply()
+                        ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8509: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setStroke(dp(2), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8509: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setStroke(dp(2), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8509: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setStroke(dp(2), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8509: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setStroke(dp(2), if (isDarkTheme) Color.parseColor("#334155") else Color.parseColor("#E2E8F0"))
+                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8543: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    intArrayOf(accentColor, Color.parseColor("#A78BFA"))
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8543: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    intArrayOf(accentColor, Color.parseColor("#A78BFA"))
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8714: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#18FFFFFF"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8714: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    setColor(Color.parseColor("#18FFFFFF"))
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8778: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8778: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8778: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8778: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    intArrayOf(Color.parseColor("#4F46E5"), accentColor, Color.parseColor("#A78BFA"))
+                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8822: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    if (isDarkTheme) setStroke(dp(1), Color.parseColor("#1E293B"))
+                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8822: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    if (isDarkTheme) setStroke(dp(1), Color.parseColor("#1E293B"))
+                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8847: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                    val highlightColor = Color.parseColor("#FFD700")
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8867: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+            holder.text.setLinkTextColor(if (isMine) Color.parseColor("#B3E5FF") else accentColor)
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:9142: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                                setColor(Color.parseColor("#33818CF8"))
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:9148: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                                setColor(if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#F1F5F9"))
+                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:9148: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                                setColor(if (isDarkTheme) Color.parseColor("#1E293B") else Color.parseColor("#F1F5F9"))
+                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UseKtx":
+   The Android KTX libraries decorates the Android platform SDK as well as
+   various libraries with more convenient extension functions available from
+   Kotlin, allowing you to use default parameters, named parameters, and
+   more.
+
+   Available options:
+
+   **remove-defaults** (default is true):
+   Whether to skip arguments that match the defaults provided by the extension.
+
+   Extensions often provide default values for some of the parameters. For example:
+   ```kotlin
+   fun Path.readLines(charset: Charset = Charsets.UTF_8): List<String> { return Files.readAllLines(this, charset) }
+   ```
+   This lint check will by default automatically omit parameters that match the default, so if your code was calling
+
+   ```kotlin
+   Files.readAllLines(file, Charset.UTF_8)
+   ```
+   lint would replace this with
+   ```kotlin
+   file.readLines()
+   ```
+   rather than
+
+   ```kotlin
+   file.readLines(Charset.UTF_8
+   ```
+   You can turn this behavior off using this option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="remove-defaults" value="true" />
+       </issue>
+   </lint>
+   ```
+
+   **require-present** (default is true):
+   Whether to only offer extensions already available.
+
+   This option lets you only have lint suggest extension replacements if those extensions are already available on the class path (in other words, you're already depending on the library containing the extension method.)
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="require-present" value="true" />
+       </issue>
+   </lint>
+   ```
+
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:78: Warning: Use version catalog instead (androidx.core:core-ktx is already available as androidx-core-ktx, but using version 1.17.0 instead) [UseTomlInstead]
+    implementation("androidx.core:core-ktx:1.12.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:79: Warning: Use version catalog instead (androidx.appcompat:appcompat is already available as androidx-appcompat, but using version 1.7.1 instead) [UseTomlInstead]
+    implementation("androidx.appcompat:appcompat:1.6.1")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:80: Warning: Use version catalog instead (com.google.android.material:material is already available as material, but using version 1.13.0 instead) [UseTomlInstead]
+    implementation("com.google.android.material:material:1.9.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:81: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:82: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:86: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.room:room-runtime:$room_version")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:87: Warning: Use version catalog instead [UseTomlInstead]
+    kapt("androidx.room:room-compiler:$room_version")
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:88: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.room:room-ktx:$room_version")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:91: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("net.zetetic:sqlcipher-android:4.6.1@aar")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:92: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.sqlite:sqlite-ktx:2.4.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:95: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:96: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:97: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:100: Warning: Use version catalog instead [UseTomlInstead]
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:101: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("com.google.firebase:firebase-auth")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:102: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("com.google.firebase:firebase-firestore")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:103: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("com.google.firebase:firebase-messaging")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:104: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:107: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("com.google.android.play:integrity:1.4.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:110: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:111: Warning: Use version catalog instead [UseTomlInstead]
+    debugImplementation("com.google.firebase:firebase-appcheck-debug")
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:114: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("com.google.firebase:firebase-crashlytics")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:117: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.biometric:biometric:1.1.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:120: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:123: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:126: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("com.google.zxing:core:3.5.3")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:128: Warning: Use the existing version catalog reference (libs.junit) instead [UseTomlInstead]
+    testImplementation("junit:junit:4.13.2")
+                       ~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:129: Warning: Use version catalog instead (androidx.test.ext:junit is already available as androidx-junit, but using version 1.3.0 instead) [UseTomlInstead]
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\build.gradle.kts:130: Warning: Use version catalog instead (androidx.test.espresso:espresso-core is already available as androidx-espresso-core, but using version 3.7.0 instead) [UseTomlInstead]
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UseTomlInstead":
+   If your project is using a libs.versions.toml file, you should place all
+   Gradle dependencies in the TOML file. This lint check looks for version
+   declarations outside of the TOML file and suggests moving them (and in the
+   IDE, provides a quickfix to performing the operation automatically).
+
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:9210: Warning: Custom view `LinearLayout` has setOnTouchListener called on it but does not override performClick [ClickableViewAccessibility]
+            holder.bubble.setOnTouchListener { _, event ->
+            ^
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:9210: Warning: onTouch lambda should call View#performClick when a click is detected [ClickableViewAccessibility]
+            holder.bubble.setOnTouchListener { _, event ->
+                                             ^
+
+   Explanation for issues of type "ClickableViewAccessibility":
+   If a View that overrides onTouchEvent or uses an OnTouchListener does not
+   also implement performClick and call it when clicks are detected, the View
+   may not handle accessibility actions properly. Logic handling the click
+   actions should ideally be placed in View#performClick as some accessibility
+   services invoke performClick when a click action should occur.
+
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:288: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            text = S.get("preview") + " (${selectedUris.size})"
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:288: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            text = S.get("preview") + " (${selectedUris.size})"
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:349: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                text = "💬 $caption"
+                       ~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:384: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            text = S.get("send") + " ➤"
+                   ~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\InlineGalleryPicker.kt:599: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                holder.checkBadge.text = "${selIndex + 1}"
+                                            ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:1968: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                text = "← ${S.get("back_to_settings")}"
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:2276: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                    text = "@$username"
+                           ~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:3537: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            text = "\"$preview\""
+                   ~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4468: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                    counterLabel.text = "${currentIndex + 1}/${bitmaps.size}"
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4468: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                    counterLabel.text = "${currentIndex + 1}/${bitmaps.size}"
+                                           ~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4489: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                    counterLabel.text = "${currentIndex + 1}/${bitmaps.size}"
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4489: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                    counterLabel.text = "${currentIndex + 1}/${bitmaps.size}"
+                                           ~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4508: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            text = "⬇ " + S.get("save")
+                   ~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4530: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                text = "⬇ " + S.get("save") + " (${bitmaps.size})"
+                       ~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4530: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                text = "⬇ " + S.get("save") + " (${bitmaps.size})"
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:4530: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                text = "⬇ " + S.get("save") + " (${bitmaps.size})"
+                                              ~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6029: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                    text = "@$myUsername"; setTextColor(textColor); textSize = 16f
+                           ~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6138: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                text = "${userDevices.size}/$MAX_DEVICES_PER_ACCOUNT"
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6319: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                text = "${S.get("app_language")}: ${currentLangEntry?.let { "${it.second} ${it.third}" } ?: "🇬🇧 English"}"
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6539: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            text = "@$myUsername"
+                   ~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6742: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                        matchLabel.text = "${currentMatch + 1}/${matchPositions.size}"
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6742: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                        matchLabel.text = "${currentMatch + 1}/${matchPositions.size}"
+                                             ~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6752: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                        matchLabel.text = "${currentMatch + 1}/${matchPositions.size}"
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6752: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                        matchLabel.text = "${currentMatch + 1}/${matchPositions.size}"
+                                             ~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:6777: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                        currentMatch = 0; matchLabel.text = "1/${matchPositions.size}"
+                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7221: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                            matchLabel.text = "${currentMatch + 1}/${matchPositions.size}"
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7221: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                            matchLabel.text = "${currentMatch + 1}/${matchPositions.size}"
+                                                 ~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7234: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                            matchLabel.text = "${currentMatch + 1}/${matchPositions.size}"
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7234: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                            matchLabel.text = "${currentMatch + 1}/${matchPositions.size}"
+                                                 ~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:7275: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                            matchLabel.text = "1/${matchPositions.size}"
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8603: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                        holder.subtitleView.text = "@${user.username}"
+                                                   ~~~~~~~~~~~~~~~~~~~
+<EXTRACTED_ARCHIVE>\app\src\main\java\com\example\execbin\MainActivity.kt:8837: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                holder.text.text = "${msg.text}  (${S.get("edited")})"
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "SetTextI18n":
+   When calling TextView#setText
+   * Never call Number#toString() to format numbers; it will not handle
+   fraction separators and locale-specific digits properly. Consider using
+   String#format with proper format specifications (%d or %f) instead.
+   * Do not pass a string literal (e.g. "Hello") to display text. Hardcoded
+   text can not be properly translated to other languages. Consider using
+   Android resource strings instead.
+   * Do not build messages by concatenating text chunks. Such messages can not
+   be properly translated.
+
+   https://developer.android.com/guide/topics/resources/localization.html
+
+0 errors, 508 warnings

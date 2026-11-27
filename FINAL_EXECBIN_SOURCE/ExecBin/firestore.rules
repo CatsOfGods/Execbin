@@ -1,0 +1,185 @@
+rules_version = '2';
+
+// Firestore security rules for ExecBin, derived from every read/write/query the Android app makes.
+// Tested with the Firebase Emulator Suite: see firestore-tests/.
+// Review against your currently deployed rules before running `firebase deploy --only firestore:rules`.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isUser(uid) { return signedIn() && request.auth.uid == uid; }
+    function incoming() { return request.resource.data; }
+    function changedKeys() { return incoming().diff(resource.data).affectedKeys(); }
+    function onlyChanges(fields) { return changedKeys().hasOnly(fields); }
+    function isShortString(v, max) { return v is string && v.size() <= max; }
+
+    // Max size of base64 media/photos stored inline (Firestore docs are capped at 1 MiB)
+    function mediaOk(data) {
+      return !('mediaUrl' in data) || isShortString(data.mediaUrl, 950000);
+    }
+
+    // Messages must carry the sender's real (immutable) username — prevents posting as someone else
+    function usernameMatchesProfile(data) {
+      // (profiles from very old app versions may lack a username; then there is nothing to compare)
+      return data.username == get(/databases/$(database)/documents/publicProfiles/$(request.auth.uid)).data.get('username', data.username);
+    }
+
+    // Reactions are "uid:emoji" strings. A user may add at most one and remove only their own.
+    function ownEntries(l) {
+      let prefix = request.auth.uid + ':.*';
+      return l.size() == 0
+        || (l.size() == 1 && l[0].matches(prefix))
+        || (l.size() == 2 && l[0].matches(prefix) && l[1].matches(prefix));
+    }
+    function validReactionChange() {
+      let before = resource.data.get('reactions', []);
+      let after = incoming().reactions;
+      return after is list
+        && after.size() <= 200
+        && after.removeAll(before).size() <= 1
+        && ownEntries(after.removeAll(before))
+        && ownEntries(before.removeAll(after));
+    }
+
+    // ---------------------------------------------------------------- users (private account data)
+    // Hashed email, PIN hash, FCM token, deletion mark. Owner only.
+    match /users/{uid} {
+      allow read, write: if isUser(uid);
+
+      // New-login and honeypot alerts, written by the user's own devices
+      match /securityAlerts/{alertId} {
+        allow read, write: if isUser(uid);
+      }
+    }
+
+    // ---------------------------------------------------------------- publicProfiles
+    // Username, nickname, photo, bio, presence, E2E public key. Readable by signed-in users (search,
+    // chat headers, key exchange). Only the owner writes; username can't change after creation.
+    match /publicProfiles/{uid} {
+      allow read: if signedIn();
+      allow create: if isUser(uid)
+        && incoming().uid == uid
+        && isShortString(incoming().username, 64)
+        && isShortString(incoming().get('publicKey', ''), 500)
+        && isShortString(incoming().get('photoBase64', ''), 950000);
+      allow update: if isUser(uid)
+        && incoming().get('uid', uid) == uid
+        && incoming().get('username', '') == resource.data.get('username', '')
+        && isShortString(incoming().get('publicKey', ''), 500)
+        && isShortString(incoming().get('photoBase64', ''), 950000);
+      allow delete: if isUser(uid);
+    }
+
+    // ---------------------------------------------------------------- devices
+    // Doc id is the device id; one signed-in account per device doc.
+    match /devices/{deviceId} {
+      allow get, list, delete: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create, update: if signedIn() && incoming().userId == request.auth.uid
+        && incoming().get('deviceId', deviceId) == deviceId;
+    }
+
+    // ---------------------------------------------------------------- deviceAccounts
+    // Accounts that have signed in on a device (for the account switcher).
+    match /deviceAccounts/{deviceId} {
+      allow get: if signedIn() && (resource == null || request.auth.uid in resource.data.accounts);
+      allow create: if signedIn() && incoming().accounts is list && request.auth.uid in incoming().accounts
+        && incoming().accounts.size() <= 20;
+      allow update: if signedIn() && incoming().accounts is list && incoming().accounts.size() <= 20
+        && (request.auth.uid in resource.data.accounts || request.auth.uid in incoming().accounts);
+    }
+
+    // ---------------------------------------------------------------- globalChat (public, not E2E)
+    match /globalChat/{msgId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && incoming().senderId == request.auth.uid
+        && usernameMatchesProfile(incoming())
+        && isShortString(incoming().text, 4000)
+        && mediaOk(incoming());
+      allow update: if signedIn() && (
+        (resource.data.senderId == request.auth.uid
+          && onlyChanges(['text', 'edited', 'editedAt'])
+          && isShortString(incoming().text, 4000))
+        || (onlyChanges(['reactions']) && validReactionChange())
+      );
+      allow delete: if signedIn() && resource.data.senderId == request.auth.uid;
+    }
+
+    // ---------------------------------------------------------------- privateChats (E2E encrypted)
+    // chatId is "<uidA>_<uidB>" (sorted). Firebase UIDs contain no underscore.
+    match /privateChats/{chatId} {
+      function isParticipant() { return signedIn() && request.auth.uid in chatId.split('_'); }
+      function chatMembers() { return chatId.split('_').toSet(); }
+
+      // Chat list query: whereArrayContains("participants", myUid)
+      allow list: if signedIn() && request.auth.uid in resource.data.participants;
+      allow get: if isParticipant();
+      allow create: if isParticipant()
+        && chatId.split('_').size() == 2
+        && incoming().participants.toSet() == chatMembers();
+      // Last-message preview and the caller's own typing flag only
+      allow update: if isParticipant()
+        && onlyChanges(['lastMessage', 'lastTimestamp', 'typing_' + request.auth.uid]);
+
+      match /messages/{msgId} {
+        allow read: if isParticipant();
+        allow create: if isParticipant()
+          && incoming().senderId == request.auth.uid
+          && usernameMatchesProfile(incoming())
+          && isShortString(incoming().text, 100000)
+          && mediaOk(incoming());
+        allow update: if isParticipant() && (
+          // Sender edits: re-encrypted text/reply with a fresh ephemeral key
+          (resource.data.senderId == request.auth.uid
+            && onlyChanges(['text', 'senderText', 'replyToText', 'senderReplyText', 'ephemeralKey', 'edited', 'editedAt'])
+            && isShortString(incoming().text, 100000))
+          // Read receipts: only the recipient, only false -> true
+          || (resource.data.senderId != request.auth.uid
+            && onlyChanges(['read']) && incoming().read == true)
+          || (onlyChanges(['reactions']) && validReactionChange())
+        );
+        allow delete: if isParticipant() && resource.data.senderId == request.auth.uid;
+      }
+    }
+
+    // ---------------------------------------------------------------- reports (create-only)
+    // Doc id "<reporterId>_<messageId>" so each user can report a message once (no updates allowed).
+    // The reported message must exist, be from the reported user, and be visible to the reporter.
+    match /reports/{reportId} {
+      function messagePath() {
+        return incoming().chatType == 'global'
+          ? /databases/$(database)/documents/globalChat/$(incoming().messageId)
+          : /databases/$(database)/documents/privateChats/$(incoming().chatId)/messages/$(incoming().messageId);
+      }
+
+      allow create: if signedIn()
+        && reportId == request.auth.uid + '_' + incoming().messageId
+        && incoming().reporterId == request.auth.uid
+        && incoming().keys().hasOnly([
+          'reporterId', 'reportedUserId', 'reportedUsername', 'messageHash', 'chatType', 'chatId',
+          'messageId', 'reasonCode', 'createdAt', 'status', 'reportedText',
+          'autoVerdict', 'autoSeverity', 'autoCategory', 'autoFlags', 'autoScore'
+        ])
+        && incoming().chatType in ['global', 'private']
+        && incoming().reasonCode in ['spam', 'harassment', 'hate_speech', 'violence', 'other']
+        && incoming().status == 'pending'
+        && incoming().createdAt == request.time
+        && isShortString(incoming().messageId, 128)
+        && isShortString(incoming().chatId, 300)
+        && isShortString(incoming().get('reportedUsername', ''), 64)
+        && isShortString(incoming().get('autoFlags', ''), 500)
+        // Reporter-shared text only for private chats (global text is read server-side), capped
+        && (!('reportedText' in incoming())
+          || (incoming().chatType == 'private' && isShortString(incoming().reportedText, 1000)))
+        && (incoming().chatType == 'global' || request.auth.uid in incoming().chatId.split('_'))
+        && exists(messagePath())
+        && get(messagePath()).data.senderId == incoming().reportedUserId
+        && incoming().reportedUserId != request.auth.uid;
+    }
+
+    // moderationUsage (AI budget counters) and everything else: server/Admin SDK only
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

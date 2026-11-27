@@ -1,0 +1,93 @@
+# Detekt configuration for ExecBin.
+#
+# Pragmatic ruleset while MainActivity is still being decomposed — deliberately
+# loose on size/complexity rules so the existing monolith doesn't explode CI.
+# Tighten these thresholds as refactoring progresses.
+
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+
+config:
+  validation: true
+  warningsAsErrors: false
+  checkExhaustiveness: false
+
+complexity:
+  active: true
+  LongMethod:
+    active: true
+    threshold: 120  # loosen from default 60 until MainActivity is split
+  LongParameterList:
+    active: true
+    functionThreshold: 8
+    constructorThreshold: 8
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 30
+  LargeClass:
+    active: true
+    threshold: 1000
+  TooManyFunctions:
+    active: false  # MainActivity has dozens; will re-enable post-refactor
+  NestedBlockDepth:
+    active: true
+    threshold: 6
+
+style:
+  active: true
+  MagicNumber:
+    active: false  # too noisy for this codebase right now
+  MaxLineLength:
+    active: true
+    maxLineLength: 140
+    excludePackageStatements: true
+    excludeImportStatements: true
+  ReturnCount:
+    active: true
+    max: 5
+  WildcardImport:
+    active: true
+  UnusedImports:
+    active: true
+  UnusedPrivateMember:
+    active: true
+
+naming:
+  active: true
+  FunctionNaming:
+    active: true
+  ClassNaming:
+    active: true
+  VariableNaming:
+    active: true
+
+performance:
+  active: true
+
+potential-bugs:
+  active: true
+  UnsafeCallOnNullableType:
+    active: true
+  UnreachableCode:
+    active: true
+
+exceptions:
+  active: true
+  TooGenericExceptionCaught:
+    active: false  # we catch Exception intentionally around crypto / Firestore
+  SwallowedException:
+    active: false  # same rationale — we log and degrade gracefully
+
+empty-blocks:
+  active: true
+  EmptyFunctionBlock:
+    active: true
+    ignoreOverridden: true
+
+comments:
+  active: true
+  UndocumentedPublicClass:
+    active: false
+  UndocumentedPublicFunction:
+    active: false

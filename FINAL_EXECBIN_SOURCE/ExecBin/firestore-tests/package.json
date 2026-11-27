@@ -1,0 +1,12 @@
+{
+  "name": "execbin-firestore-rules-tests",
+  "private": true,
+  "description": "Firestore security rules tests. Run from the project root: firebase emulators:exec --only firestore --project demo-execbin \"npm --prefix firestore-tests test\"",
+  "scripts": {
+    "test": "node --test --test-concurrency=1 rules.test.js"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^4.0.1",
+    "firebase": "^11.0.0"
+  }
+}

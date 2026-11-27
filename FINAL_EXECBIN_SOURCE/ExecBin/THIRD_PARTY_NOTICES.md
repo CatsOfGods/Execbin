@@ -1,8 +1,6 @@
 # Third-Party Notices
 
-ExecBin's own source code is transferred under the terms of the sale agreement (no open-source
-license is granted by this package). The project depends on the third-party components below,
-which remain under their own licenses. Licenses were taken from each component's published
+ExecBin's open source code
 Maven POM / npm `package.json` on 2026-10-25.
 
 **Before publishing the app:** the Android binary bundles these libraries. Show their notices in
